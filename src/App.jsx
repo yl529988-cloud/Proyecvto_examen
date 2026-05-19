@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import HomePage from "./pages/Home/HomePage"
 import Equipo from "./pages/Equipo/Equipo"
-import Crud from "./pages/crud/Crud"
+import Crud from "./pages/crud/crud"
 import Altas from "./pages/crud/Altas"
 import Consultas from "./pages/crud/Consultas"
 import Actualizaciones from "./pages/crud/Actualizaciones"
