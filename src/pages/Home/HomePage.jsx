@@ -23,7 +23,7 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ background: "#0f172a", minHeight: "100vh", color: "white" }}>
+    <Box sx={{ background: "#f3f4f8", minHeight: "100vh", color: "white" }}>
 
       {/* HERO SECTION */}
       <Box
