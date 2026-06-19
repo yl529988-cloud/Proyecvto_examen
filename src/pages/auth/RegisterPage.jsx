@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../services/authService";
 
 import {
   Alert,
@@ -92,17 +93,23 @@ export default function RegisterPage() {
 
       setLoading(true);
 
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1500)
-      );
-
-      console.log("Datos de registro:", form);
-
+      const data = await registerUser({
+       name: form.name,
+       email: form.email,
+       password: form.password
+      });
+      console.log("Usuario registrado:", data);
       navigate("/login");
 
     } catch (error) {
-
+      
       console.error(error);
+
+      setErrors({
+        general:
+        error.response?.data?.message ||
+        "Error al registrar el usuario"
+      });
 
     } finally {
 
@@ -129,9 +136,13 @@ export default function RegisterPage() {
           >
 
             <Stack spacing={3}>
+              {errors.general && (
+                <Alert severity="error">
+                  {errors.general}
+                </Alert>
+              )}
 
               <div>
-
                 <Typography
                   variant="h4"
                   fontWeight={700}
@@ -227,6 +238,12 @@ export default function RegisterPage() {
                 onClick={() => navigate("/login")}
               >
                 ¿Ya tienes cuenta? Inicia sesión
+              </Button>
+              <Button
+               onClick={() => navigate("/")}
+               color="secondary"
+              >
+               Volver al inicio
               </Button>
 
             </Stack>

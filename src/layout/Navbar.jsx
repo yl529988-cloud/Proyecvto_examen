@@ -14,6 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useAuth } from "../context/AuthContext";
 
 import { useNavigate } from "react-router-dom";
 
@@ -24,12 +25,19 @@ export default function Navbar({ toggleDrawer, toggleCollapse }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  const { user , logout} = useAuth();
+
   const handleMenu = () => {
     if (isMobile) {
       toggleDrawer();
     } else {
       toggleCollapse();
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/", { replace: true });
   };
 
   return (
@@ -65,31 +73,43 @@ export default function Navbar({ toggleDrawer, toggleCollapse }) {
         <Box sx={{ flexGrow: 1 }} />
 
         {/* AUTH AREA */}
-        <Stack direction="row" spacing={2} alignItems="center">
+<Stack direction="row" spacing={2} alignItems="center">
 
-          {(
-            <>
-              {/* LOGIN */}
-              <Button
-                color="inherit"
-                startIcon={<LoginIcon />}
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </Button>
+  {user ? (
+    <>
+      <Typography variant="body1">
+        Bienvenido, {user.name}
+      </Typography>
 
-              {/* REGISTER */}
-              <Button
-                variant="contained"
-                startIcon={<PersonAddIcon />}
-                onClick={() => navigate("/register")}
-              >
-                Sign Up
-              </Button>
-            </>
-          )}
+      <Button
+        color="inherit"
+        startIcon={<LogoutIcon />}
+        onClick={handleLogout}
+      >
+        Cerrar sesión
+      </Button>
+    </>
+  ) : (
+    <>
+      <Button
+        color="inherit"
+        startIcon={<LoginIcon />}
+        onClick={() => navigate("/login")}
+      >
+        Login
+      </Button>
 
-        </Stack>
+      <Button
+        variant="contained"
+        startIcon={<PersonAddIcon />}
+        onClick={() => navigate("/register")}
+      >
+        Sign Up
+      </Button>
+    </>
+  )}
+
+</Stack>
 
       </Toolbar>
     </AppBar>

@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 import {
   Container,
@@ -13,6 +16,8 @@ import {
 
 export default function LoginPage() {
 
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({
     email: "",
     password: ""
@@ -71,30 +76,26 @@ export default function LoginPage() {
       return;
     }
 
-    try {
+try {
 
-      setLoading(true);
-      setSuccess("");
+  setLoading(true);
+  setSuccess("");
 
-      await new Promise((resolve) =>
-        setTimeout(resolve, 1500)
-      );
-
-      console.log("Datos del login:", form);
-
-      setSuccess("Login correcto");
+  await login(form);
+    setSuccess("Login correcto");
+    navigate("/Equipo", { replace: true });
 
     } catch (error) {
 
-      setErrors({
-        general: "Algo salió mal"
-      });
+   setErrors({
+    general:
+      error.response?.data?.message ||
+      "Credenciales incorrectas"
+  });
 
-    } finally {
-
-      setLoading(false);
-
-    }
+} finally {
+  setLoading(false);
+}
   };
 
   return (
@@ -173,6 +174,11 @@ export default function LoginPage() {
                 {loading
                   ? "Accediendo..."
                   : "Ingresar"}
+              </Button>
+              <Button
+                onClick={() => navigate("/")}
+              >
+                 Volver al inicio
               </Button>
 
             </Stack>

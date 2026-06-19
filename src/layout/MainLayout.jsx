@@ -6,6 +6,7 @@ import {
   Typography
 } from "@mui/material"
 
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar"
 import Navbar from "./Navbar"
 import { drawerWidth, collapsedWidth } from "./constants"
@@ -67,9 +68,9 @@ export default function MainLayout({ children }) {
         <Toolbar />
 
         {/* CONTENIDO DE LAS PÁGINAS */}
-        <Box sx={{ flexGrow: 1 }}>
-          {children}
-        </Box>
+         <Box sx={{ flexGrow: 1 }}>
+  <Outlet />
+         </Box>
 
         {/* FOOTER */}
         <Box
